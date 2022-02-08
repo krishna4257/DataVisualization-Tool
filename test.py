@@ -1,15 +1,10 @@
 import sys
 import matplotlib
-
-matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
 import pandas as pd
 from pandas import read_excel
 
-df = pd.read_excel(
-    "National_Stock_Exchange_of_India_Ltd.xlsx",
-    sheet_name="National_Stock_Exchange_of_Indi",
-)
+df = pd.read_excel("National_Stock_Exchange_of_India_Ltd.xlsx", sheet_name="National_Stock_Exchange_of_Indi")
 print(df.to_string())
 df.plot()
 plt.show()
