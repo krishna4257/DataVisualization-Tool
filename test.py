@@ -11,3 +11,4 @@ plt.show()
 plt.savefig("result.png")
 plt.savefig(sys.stdout.buffer)
 sys.stdout.flush()
+
