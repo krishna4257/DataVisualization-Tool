@@ -1,11 +1,9 @@
 from tkinter import *
 from tkinter import messagebox, simpledialog
-import sys
-import matplotlib
 import matplotlib.pyplot as plt
 import pandas as pd
-import numpy as np
-from pandas import read_excel
+import plotly.express as px
+
 
 final_names = []
 
@@ -23,9 +21,12 @@ def line_chart():
 
     df = pd.read_excel('National_Stock_Exchange_of_India_Ltd.xlsx', sheet_name='National_Stock_Exchange_of_Indi')
     df_1 = pd.DataFrame(df)
+    columns = df_1.columns
+    column_name = df_1[columns[0]]
+
     final_input = str(input_value)
-    check = df_1[df_1["Symbol"] == input_value]
-    print(check)
+    check = df_1[column_name == input_value]
+
     x=final_names
 
     y = []
@@ -40,45 +41,22 @@ def line_chart():
 
 
 
-#def bar_graph():
-#    df = pd.read_excel("National_Stock_Exchange_of_India_Ltd.xlsx", sheet_name="National_Stock_Exchange_of_Indi")
-#
-#    x = df["Symbol"]
-#    y = df["High"]
-#    x_1 = list(x)
-#    y_1 = list(y)
-#    print(x_1)
-#    print(y_1)
-#
-#    # fig = plt.figure(figsize=(100, 5))
-#    # y_1 = float(y)
-#    # y = df["Open"].apply(lambda x: float(x))
-#    plt.bar(x=x_1, y=y_1, height=0.8, width=0.2)
-#    plt.show()
-#
-#    # sys.stdout.flush()
-#    # input_value = entry.get()
-#    # destroy()
+def bar_graph():
+    df = pd.read_excel("National_Stock_Exchange_of_India_Ltd.xlsx", sheet_name="National_Stock_Exchange_of_Indi")
+
+    column_names = df.columns
+
+    column_name = simpledialog.askstring(title="Column Name",
+                                         prompt="Enter the Column Name for which you need the bar chart")
+    column = df[column_name]
+
+    x_axis = df[column_names[0]]
+
+    fig = px.bar(x=x_axis, y=column)
+    fig.show()
 
 
-#
-##name = column_name.get()
-# df = pd.read_excel('National_Stock_Exchange_of_India_Ltd.xlsx', sheet_name='National_Stock_Exchange_of_Indi')
-##df_1 = pd.DataFrame(df)
-##print(df_1)
-# company_names  = df["Symbol"]
-#
-# x = [company_names]
-# print(x)
-# y = df["Open"]
-#
-# print(float(y))
-#
-# plt.xlabel("Symbol")
-# plt.ylabel("Open")
-# plt.bar(x, y)
-# plt.show()
-#
+
 
 def pie_chart():
     input_value = entry.get()
@@ -87,18 +65,11 @@ def pie_chart():
     destroy()
 
     df = pd.read_excel('National_Stock_Exchange_of_India_Ltd.xlsx', sheet_name='National_Stock_Exchange_of_Indi')
-    df_1 = pd.DataFrame(df)
-    check = df["Symbol"]
-    print(check)
-    x = check
+    column = df[column_name]
 
-    y = df[column_name]
-    print(y)
-    fig = plt.figure(figsize=(10, 7))
-    plt.pie(y, labels=x, autopct='%1.2f%%', textprops={'fontsize': 8})
-    #plt.legend(title="Symbols")
+    fig = px.pie(names=df.Symbol, values=column)
+    fig.show()
 
-    plt.show()
 
 
 def num_column():
@@ -109,38 +80,6 @@ def num_column():
 
 column_names = []
 
-#def next_1():
-#    num_boxes = int(spin.get())
-#    name = entry_1.get()
-#
-#
-#    if len(name) != 0:
-#        final_names.append(name)
-#    print(final_names)
-#    num_boxes-=1
-#
-#    if num_boxes!= 0:
-#        boxes()
-#    else:
-#        print(final_names)
-#
-#
-#
-#
-#def boxes():
-#
-#    global entry_1
-#
-#    i=1
-#    num = [1,2,3,4,5,6,7,8,9,10]
-#
-#    name = Label(text=f"enter your {num[i]} column name")
-#    name.grid(row=6, column=2)
-#    entry_1 = Entry()
-#    entry_1.grid(row=6, column=3)
-#    col = Button(text="next", command=next_1)
-#    col.grid(row=6, column=4)
-#Open	High	Low	LTP	Chng	% Chng	Volume (lacs)	Turnover (crs.)	52w H	52w L	365 d % chng	30 d % chng
 
 def col_na():
     num_boxes = int(spin.get())
@@ -188,8 +127,8 @@ button.grid(row=5, column=3)
 
 line_button = Button(text="Line Graph", command=line_chart)
 line_button.grid(row=7, column=1)
-#bar_button = Button(text="Bar Graph", command=bar_graph)
-#bar_button.grid(row=7, column=2)
+bar_button = Button(text="Bar Graph", command=bar_graph)
+bar_button.grid(row=7, column=2)
 pie_button = Button(text="Pie Graph", command=pie_chart)
 pie_button.grid(row=7, column=3)
 input_value = entry.get()
